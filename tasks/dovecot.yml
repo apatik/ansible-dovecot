@@ -1,9 +1,10 @@
-- name: Installs dovecot
+- name: Installs dovecot & passlib
   apt:
     pkg: "{{ item }}"
     state: present
   with_items:
     - dovecot-imapd
+    - python-passlib
 
 - name: Fixes some default files
   template:
