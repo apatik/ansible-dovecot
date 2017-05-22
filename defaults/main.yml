@@ -1,0 +1,36 @@
+dovecot_auth_master_user_separator: False
+
+# dovecot_passdbs
+# e.g.
+# dovecot_passdbs:
+#   - driver: passwd-file
+#     args: "scheme=SHA1 /etc/dovecot/passwd.master"
+#     master: "yes"
+#     pass: "yes"
+#   - driver: passwd-file
+#     args: "scheme=SHA1 /etc/dovecot/passwd"
+
+dovecot_passdbs: []
+
+dovecot_mail_location: "mbox:~/mail:INBOX=/var/mail/%u"
+
+dovecot_mail_access_groups: False
+dovecot_first_valid_uid: False
+dovecot_first_valid_gid: False
+
+# dovecot_default_login_user
+# e.g.
+# dovecot_default_login_user:
+#   user: foo
+#   group: foo
+#   uid: 2222
+#   gid: 2222 
+dovecot_default_login_user: False
+
+dovecot_master_users_file: /etc/dovecot/passwd.master
+
+# dovecot_master_users:
+#   foo: foopass
+#   bar: barpass
+dovecot_master_users: {}
+dovecot_users:

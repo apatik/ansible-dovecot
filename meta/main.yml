@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: Michel Blanc
+  description: Dovecot role
+  company: devops.works
+  license: MIT
+  min_ansible_version: 2.3.0.0
+
+  platforms:
+    - name: Ubuntu
+      versions:
+       - trusty
+       - xenial
+    - name: Debian
+      versions:
+        - wheezy
+  categories:
+    - email
+
+dependencies: []
+

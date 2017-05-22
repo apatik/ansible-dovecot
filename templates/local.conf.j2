@@ -1,0 +1,9 @@
+
+{% for db in dovecot_passdbs %}
+passdb {
+{%   for key in db %}
+  {{ key }} = {{ db[key] }}
+{%    endfor %}
+}
+{% endfor %}
+

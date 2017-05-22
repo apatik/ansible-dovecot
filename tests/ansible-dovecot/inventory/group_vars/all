@@ -1,0 +1,26 @@
+
+dovecot_passdbs:
+  - driver: passwd-file
+    args: "scheme=SHA1 /etc/dovecot/passwd.master"
+    master: "yes"
+    pass: "yes"
+  - driver: passwd-file
+    args: "scheme=SHA1 /etc/dovecot/passwd"
+
+dovecot_mail_location:
+  maildir:/var/vmail/%d/%n
+
+dovecot_mail_access_groups: vmail
+dovecot_first_valid_uid: 2222
+dovecot_first_valid_gid: 2222
+
+dovecot_default_login_user:
+  user: vmail
+  group: vmail
+  uid: 2222
+  git: 2222
+
+
+dovecot_master_users:
+  master: omgpass
+  othermaster: anotherpass
