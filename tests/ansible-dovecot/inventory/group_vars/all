@@ -18,7 +18,8 @@ dovecot_default_login_user:
   user: vmail
   group: vmail
   uid: 2222
-  git: 2222
+  gid: 2222
+  home: /var/vmail
 
 
 dovecot_master_users:

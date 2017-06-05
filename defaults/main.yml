@@ -11,6 +11,7 @@ dovecot_auth_master_user_separator: False
 #     args: "scheme=SHA1 /etc/dovecot/passwd"
 
 dovecot_passdbs: []
+dovecot_userdbs: []
 
 dovecot_mail_location: "mbox:~/mail:INBOX=/var/mail/%u"
 

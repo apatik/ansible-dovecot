@@ -7,3 +7,11 @@ passdb {
 }
 {% endfor %}
 
+{% for db in dovecot_userdbs %}
+userdb {
+{%   for key in db %}
+  {{ key }} = {{ db[key] }}
+{%    endfor %}
+}
+{% endfor %}
+
