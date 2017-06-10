@@ -4,6 +4,7 @@
     state: present
   with_items:
     - dovecot-imapd
+    - dovecot-lmtpd
     - python-passlib
 
 - name: Fixes some default files
@@ -38,6 +39,15 @@
     backup: yes
   notify: Restart dovecot
 
+- name: Ensure passwd files exist (at least empty)
+  file:
+    path: /etc/dovecot/{{ item }}
+    state: touch
+  changed_when: false
+  with_items:
+    - passwd.master
+    - passwd
+
 - name: Creates master users hashes
   htpasswd:
     path: /etc/dovecot/passwd.master
@@ -45,3 +55,11 @@
     password: "{{ item.value }}"
     crypt_scheme: ldap_sha1
   with_dict: "{{ dovecot_master_users }}"
+
+- name: Creates users hashes
+  htpasswd:
+    path: /etc/dovecot/passwd
+    name: "{{ item.key }}"
+    password: "{{ item.value }}"
+    crypt_scheme: ldap_sha1
+  with_dict: "{{ dovecot_users }}"

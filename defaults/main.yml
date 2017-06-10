@@ -1,4 +1,5 @@
 dovecot_auth_master_user_separator: False
+dovecot_disable_plaintext_auth: "yes"
 
 # dovecot_passdbs
 # e.g.
@@ -34,4 +35,16 @@ dovecot_master_users_file: /etc/dovecot/passwd.master
 #   foo: foopass
 #   bar: barpass
 dovecot_master_users: {}
-dovecot_users:
+dovecot_users: {}
+
+# lmtp config
+#dovecot_lmtp_listener:
+#  path: /var/spool/postfix/private/dovecot-lmtp
+#  mode: 0666
+#  group: postfix
+#  user: postfix
+#  postmaster: foo@bar.com
+# mail_plugins: sieve quota (optionnal)
+
+dovecot_lmtp_listener: False
+
