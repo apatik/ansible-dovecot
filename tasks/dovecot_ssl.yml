@@ -25,18 +25,21 @@
 - name: Generate new certificate
   command: openssl req -x509 -newkey rsa:4096 -nodes -subj "{{ dovecot_ssl_cert_subject }}" -keyout "{{ dovecot_ssl_key_path }}" -out "{{ dovecot_ssl_certificate_path }}" -days {{ dovecot_ssl_cert_duration }}
   when: not __dovecot_cert.stat.exists and dovecot_ssl_cert_subject
+  notify: ["Restart dovecot"]
 
 - name: Push certificate
   copy:
     dest: "{{ dovecot_ssl_certificate_path }}"
     content: "{{ dovecot_ssl_certificate }}"
   when: not __dovecot_cert.stat.exists and dovecot_ssl_certificate
+  notify: ["Restart dovecot"]
 
 - name: Push certificate key
   copy:
     dest: "{{ dovecot_ssl_key_path }}"
     content: "{{ dovecot_ssl_certificate }}"
   when: not __dovecot_cert.stat.exists and dovecot_ssl_key
+  notify: ["Restart dovecot"]
 
 - name: Changes modes on certificate
   file:
@@ -44,6 +47,7 @@
     owner: root
     group: root
     mode: 0444
+  notify: ["Restart dovecot"]
 
 - name: Changes modes on certificate key
   file:
@@ -51,3 +55,4 @@
     owner: root
     group: root
     mode: 0400
+  notify: ["Restart dovecot"]
