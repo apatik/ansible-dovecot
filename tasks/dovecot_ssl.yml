@@ -9,37 +9,45 @@
     msg: "You can not set key or cert when subject is given"
   when: "dovecot_ssl_cert_subject and (dovecot_ssl_certificate or dovecot_ssl_key)"
 
+- name: Creates destnation directories
+  file:
+    path: "{{ item | dirname }}"
+    state: directory
+  with_items:
+    - "{{ dovecot_ssl_key_path }}"
+    - "{{ dovecot_ssl_certificate_path }}"
+
 - name: Check if certificate exist
   stat:
-    path: /etc/dovecot/dovecot.pem
+    path: "{{ dovecot_ssl_certificate_path }}"
   register: __dovecot_cert
 
 - name: Generate new certificate
-  command: openssl req -x509 -newkey rsa:4096 -nodes -subj "{{ dovecot_ssl_cert_subject }}" -keyout /etc/dovecot/private/dovecot.pem -out /etc/dovecot/dovecot.pem -days {{ dovecot_ssl_cert_duration }}
+  command: openssl req -x509 -newkey rsa:4096 -nodes -subj "{{ dovecot_ssl_cert_subject }}" -keyout "{{ dovecot_ssl_key_path }}" -out "{{ dovecot_ssl_certificate_path }}" -days {{ dovecot_ssl_cert_duration }}
   when: not __dovecot_cert.stat.exists and dovecot_ssl_cert_subject
 
 - name: Push certificate
   copy:
-    dest: /etc/dovecot/certs/dovecot.pem
+    dest: "{{ dovecot_ssl_certificate_path }}"
     content: "{{ dovecot_ssl_certificate }}"
   when: not __dovecot_cert.stat.exists and dovecot_ssl_certificate
 
 - name: Push certificate key
   copy:
-    dest: /etc/dovecot/private/dovecot.pem
+    dest: "{{ dovecot_ssl_key_path }}"
     content: "{{ dovecot_ssl_certificate }}"
   when: not __dovecot_cert.stat.exists and dovecot_ssl_key
 
 - name: Changes modes on certificate
   file:
-    path:  /etc/dovecot/certs/dovecot.pem
+    path:  "{{ dovecot_ssl_certificate_path }}"
     owner: root
     group: root
     mode: 0444
 
 - name: Changes modes on certificate key
   file:
-    path:  /etc/dovecot/private/dovecot.pem
+    path:  "{{ dovecot_ssl_key_path }}"
     owner: root
     group: root
     mode: 0400
