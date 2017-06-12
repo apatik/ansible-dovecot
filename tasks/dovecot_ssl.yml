@@ -22,13 +22,13 @@
   copy:
     dest: /etc/dovecot/certs/dovecot.pem
     content: "{{ dovecot_ssl_certificate }}"
-  when: not __dovecot_cert.exists and dovecot_ssl_certificate
+  when: not __dovecot_cert.stat.exists and dovecot_ssl_certificate
 
 - name: Push certificate key
   copy:
     dest: /etc/dovecot/private/dovecot.pem
     content: "{{ dovecot_ssl_certificate }}"
-  when: not __dovecot_cert.exists and dovecot_ssl_key
+  when: not __dovecot_cert.stat.exists and dovecot_ssl_key
 
 - name: Changes modes on certificate
   file:

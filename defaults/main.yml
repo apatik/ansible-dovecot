@@ -51,11 +51,10 @@ dovecot_lmtp_listener: False
 # SSL config
 # If dovecot_ssl is set to yes, add certificate/key in proper variables
 # If you choose to leave variables empty, a certificate will be automatically generated
-# with dovecot_ssl_cert_subject:
+# for "dovecot_ssl_cert_subject"
 dovecot_ssl: no
 dovecot_ssl_certificate: False
 dovecot_ssl_key: False
-
 dovecot_ssl_cert_subject: False
-dovecot_ssl_cert_subject: False
+dovecot_ssl_cert_duration: False
 
