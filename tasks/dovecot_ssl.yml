@@ -15,7 +15,7 @@
   register: __dovecot_cert
 
 - name: Generate new certificate
-  command: openssl req -x509 -newkey rsa:4096 -nodes -subj "dovecot_ssl_cert_subject" -keyout /etc/dovecot/private/dovecot.pem -out /etc/dovecot/dovecot.pem -days {{ dovecot_ssl_cert_duration }}
+  command: openssl req -x509 -newkey rsa:4096 -nodes -subj "dovecot_ssl_cert_subject" -keyout /etc/dovecot/private/dovecot.pem -out /etc/dovecot/dovecot.pem -days "{{ dovecot_ssl_cert_duration }}"
   when: not __dovecot_cert.stat.exists and dovecot_ssl_cert_subject
 
 - name: Push certificate
