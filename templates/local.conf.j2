@@ -38,6 +38,6 @@ protocol lmtp {
 
 {% if dovecot_ssl %}
 ssl = yes
-ssl_cert = </etc/ssl/certs/dovecot.pem
-ssl_key = </etc/ssl/private/dovecot.pem
+ssl_cert = <{{ dovecot_ssl_certificate_path }}
+ssl_key = <{{ dovecot_ssl_key_path }}
 {% endif %}
