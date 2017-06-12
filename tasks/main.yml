@@ -2,3 +2,9 @@
   tags:
     - dovecot
 
+
+- include: dovecot_ssl.yml
+  when: dovecot_ssl
+  tags:
+    - dovecot
+    - dovecot:ssl

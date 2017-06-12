@@ -1,0 +1,45 @@
+
+- name: Checks that we have certificate AND key if one of them is set
+  fail:
+    msg="You must provide certificate AND key"
+  when: "(dovecot_ssl_certificate and not dovecot_ssl_key) or (not dovecot_ssl_certificate and dovecot_ssl_key)"
+
+- name: Checks that we don't have cert of key if subject is given
+  fail:
+    msg: "You can not set key or cert when subject is given"
+  when: "dovecot_ssl_cert_subject and (dovecot_ssl_certificate or dovecot_ssl_key)"
+
+- name: Check if certificate exist
+  stat:
+    path: /etc/dovecot/dovecot.pem
+  register: __dovecot_cert
+
+- name: Generate new certificate
+  command: openssl req -x509 -newkey rsa:4096 -nodes -subj "dovecot_ssl_cert_subject" -keyout /etc/dovecot/private/dovecot.pem -out /etc/dovecot/dovecot.pem -days {{ dovecot_ssl_cert_duration }}
+  when: not __dovecot_cert.exists and dovecot_ssl_cert_subject
+
+- name: Push certificate
+  copy:
+    dest: /etc/dovecot/certs/dovecot.pem
+    content: "{{ dovecot_ssl_certificate }}"
+  when: not __dovecot_cert.exists and dovecot_ssl_certificate
+
+- name: Push certificate key
+  copy:
+    dest: /etc/dovecot/private/dovecot.pem
+    content: "{{ dovecot_ssl_certificate }}"
+  when: not __dovecot_cert.exists and dovecot_ssl_key
+
+- name: Changes modes on certificate
+  file:
+    path:  /etc/dovecot/certs/dovecot.pem
+    owner: root
+    group: root
+    mode: 0444
+
+- name: Changes modes on certificate key
+  file:
+    path:  /etc/dovecot/private/dovecot.pem
+    owner: root
+    group: root
+    mode: 0400
